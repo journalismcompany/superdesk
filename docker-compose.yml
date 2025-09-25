@@ -48,6 +48,8 @@ services:
     networks:
       - superdesk
       - superdesk-newsroom
+    expose:
+      - '8080'
 
   superdesk-client:
     image: sourcefabricoss/superdesk-client:latest
