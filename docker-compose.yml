@@ -6,8 +6,6 @@ services:
       - superdesk
     expose:
       - "27017"
-    ports:
-      - "27017:27017"
 
   redis:
     image: redis:3
@@ -15,8 +13,6 @@ services:
       - superdesk
     expose:
       - "6379"
-    ports:
-      - "6379:6379"
 
   elastic:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
@@ -26,8 +22,6 @@ services:
       - superdesk
     expose:
       - "9200"
-    ports:
-      - "9200:9200"
 
   superdesk-server:
     image: sourcefabricoss/superdesk-server:latest
@@ -37,11 +31,11 @@ services:
       - mongodb
       - elastic
     environment:
-      - SUPERDESK_URL=http://localhost:8080/api
-      - DEMO_DATA=1 # install demo data, set to 0 if you want clean install
+      - SUPERDESK_URL=http://superdesk-client/api
+      - DEMO_DATA=1
       - WEB_CONCURRENCY=2
-      - SUPERDESK_CLIENT_URL=http://localhost:8080
-      - CONTENTAPI_URL=http://localhost:8080/capi
+      - SUPERDESK_CLIENT_URL=http://superdesk-client
+      - CONTENTAPI_URL=http://superdesk-client/capi
       - MONGO_URI=mongodb://mongodb/superdesk
       - CONTENTAPI_MONGO_URI=mongodb://mongodb/superdesk_capi
       - PUBLICAPI_MONGO_URI=mongodb://mongodb/superdesk_papi
@@ -53,7 +47,6 @@ services:
       - REDIS_URL=redis://redis:6379/1
       - DEFAULT_TIMEZONE=Europe/Prague
       - SECRET_KEY=*k^&9)byk=8en9n1sg7-xj4f8wr2mh^x#t%_2=1=z@69oxt50!
-      # More configuration options can be found at https://superdesk.readthedocs.io/en/latest/settings.html
     networks:
       - superdesk
       - superdesk-newsroom
@@ -62,12 +55,11 @@ services:
     image: sourcefabricoss/superdesk-client:latest
     build: ./client
     environment:
-      # If not hosting on localhost, change these lines
-      - SUPERDESK_URL=http://localhost:8080/api
-      - SUPERDESK_WS_URL=ws://localhost:8080/ws
+      - SUPERDESK_URL=http://superdesk-server:8080/api
+      - SUPERDESK_WS_URL=ws://superdesk-server:8080/ws
       - IFRAMELY_KEY
     ports:
-      - "8080:80"
+      - "8081:80"
     networks:
       - superdesk
 
