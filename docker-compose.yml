@@ -29,11 +29,11 @@ services:
       - mongodb
       - elastic
     environment:
-      - SUPERDESK_URL=http://superdesk-server:8080/api
+      - SUPERDESK_URL=https://api-cms.cncnews.co/api
       - DEMO_DATA=1
       - WEB_CONCURRENCY=2
-      - SUPERDESK_CLIENT_URL=http://superdesk-client
-      - CONTENTAPI_URL=http://superdesk-server:8080/capi
+      - SUPERDESK_CLIENT_URL=https://cms.cncnews.co
+      - CONTENTAPI_URL=https://api-cms.cncnews.co/capi
       - MONGO_URI=mongodb://mongodb/superdesk
       - CONTENTAPI_MONGO_URI=mongodb://mongodb/superdesk_capi
       - PUBLICAPI_MONGO_URI=mongodb://mongodb/superdesk_papi
@@ -43,7 +43,7 @@ services:
       - ELASTICSEARCH_INDEX=superdesk
       - CELERY_BROKER_URL=redis://redis:6379/1
       - REDIS_URL=redis://redis:6379/1
-      - DEFAULT_TIMEZONE=Europe/Prague
+      - DEFAULT_TIMEZONE=America/Sao_Paulo
       - SECRET_KEY=*k^&9)byk=8en9n1sg7-xj4f8wr2mh^x#t%_2=1=z@69oxt50!
     networks:
       - superdesk
@@ -54,8 +54,8 @@ services:
     depends_on:
       - superdesk-server
     environment:
-      - SUPERDESK_URL=http://superdesk-server:8080/api
-      - SUPERDESK_WS_URL=ws://superdesk-server:8080/ws
+      - SUPERDESK_URL=https://api-cms.cncnews.co/api
+      - SUPERDESK_WS_URL=wss://api-cms.cncnews.co/ws
       - IFRAMELY_KEY
     networks:
       - superdesk
